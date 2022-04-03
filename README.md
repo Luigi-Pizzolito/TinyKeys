@@ -9,3 +9,10 @@ Currently planning to support MacOS and Linux.
   - SQLite3
 - UI
   - FLTK
+
+## To build on MacOS
+1. Ensure you have commandline tools installed
+2. Cd to project directory
+3. `make lib`
+4. `make`
+5. `make run`

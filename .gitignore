@@ -70,3 +70,6 @@ Temporary Items
 
 # TinyKeys
 *.db
+bin/*
+dep/include/*
+dep/lib/*
