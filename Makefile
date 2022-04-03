@@ -7,7 +7,7 @@ CC=g++
 IDIR=dep/include
 LDIR=dep/lib
 LIBS=-lsqlite3 -lfltk -lXext -lX11 -lm -lpthread -framework Cocoa -framework ApplicationServices -framework Carbon
-CFLAGS=-I $(IDIR) -I src/
+CFLAGS=-I $(IDIR) -I src/ -g
 
 
 $(ODIR)/$(PNAME): $(SRCD)
@@ -37,7 +37,7 @@ lib:
 
 clean:
 	@echo "\033[0;33mCleaning Project..........................\033[0m\033[2m"
-	rm -vf $(ODIR)/*
+	rm -vrf $(ODIR)/*
 	@echo "\033[0m\033[0;33mCleaned Project.\033[0m\033[2m"
 
 clean-all:

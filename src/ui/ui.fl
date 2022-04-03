@@ -1,0 +1,380 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0308
+header_name {.h}
+code_name {.cpp}
+Function {make_main_window()} {open
+} {
+  Fl_Window {} {
+    label TinyKeys open
+    xywh {367 169 363 214} type Double labelfont 13 size_range {348 170 348 170} visible
+  } {
+    Fl_Group stats {
+      label {Glance Stats}
+      xywh {0 0 363 38} labeltype NO_LABEL
+    } {
+      Fl_Output gs_today {
+        label {Today:}
+        xywh {5 16 83 18} align 1
+        code0 {gs_today->set_output();}
+      }
+      Fl_Output gs_yesterday {
+        label {Yesterday:}
+        xywh {96 16 83 18} align 1
+        code0 {gs_yesterday->set_output();}
+      }
+      Fl_Output gs_week {
+        label {Week:}
+        xywh {187 16 83 18} align 1
+        code0 {gs_week->set_output();}
+      }
+      Fl_Output gs_alltime {
+        label {All Time:}
+        xywh {279 16 83 18} align 1
+        code0 {gs_alltime->set_output();}
+      }
+    }
+    Fl_Group keyboard {
+      label Keyboard open
+      xywh {0 38 360 147} labeltype NO_LABEL
+    } {
+      Fl_Button K_q {
+        label q
+        xywh {40 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_w {
+        label w
+        xywh {65 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_e {
+        label e
+        xywh {90 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_r {
+        label r
+        xywh {115 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_t {
+        label t
+        xywh {140 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_y {
+        label y
+        xywh {165 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_u {
+        label u
+        xywh {190 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_i {
+        label i
+        xywh {215 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_o {
+        label o
+        xywh {240 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_p {
+        label p
+        xywh {265 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_Lsqb {
+        label {[}
+        xywh {290 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_Rsbq {
+        label {]}
+        xywh {315 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_backsl {
+        label {\\}
+        xywh {340 90 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_grave {
+        label {`}
+        xywh {5 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_one {
+        label 1
+        xywh {30 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_two {
+        label 2
+        xywh {55 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_three {
+        label 3
+        xywh {80 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_four {
+        label 4
+        xywh {105 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_five {
+        label 5
+        xywh {130 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_six {
+        label 6
+        xywh {155 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_seven {
+        label 7
+        xywh {180 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_eight {
+        label 8
+        xywh {205 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_nine {
+        label 9
+        xywh {230 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_zero {
+        label 0
+        xywh {255 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_minus {
+        label {-}
+        xywh {280 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_equals {
+        label {=}
+        xywh {305 65 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_tab {
+        label tab
+        xywh {5 90 30 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_del {
+        label bs
+        xywh {330 65 30 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_esc {
+        label esc
+        xywh {5 40 30 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f1 {
+        label f1
+        xywh {40 40 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f2 {
+        label f2
+        xywh {65 40 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f3 {
+        label f3
+        xywh {90 40 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f4 {
+        label f4
+        xywh {115 40 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f5 {
+        label f5
+        xywh {145 40 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f6 {
+        label f6
+        xywh {170 40 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f7 {
+        label f7
+        xywh {195 40 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f8 {
+        label f8
+        xywh {220 40 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f9 {
+        label f9
+        xywh {250 40 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f10 {
+        label f10
+        xywh {275 40 25 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f11 {
+        label f11
+        xywh {305 40 25 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f12 {
+        label f12
+        xywh {335 40 25 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_caps {
+        label caps
+        xywh {5 115 35 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_enter {
+        label enter
+        xywh {320 115 40 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_a {
+        label a
+        xywh {45 115 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_s {
+        label s
+        xywh {70 115 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_d {
+        label d
+        xywh {95 115 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_f {
+        label f
+        xywh {120 115 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_g {
+        label g
+        xywh {145 115 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_h {
+        label h
+        xywh {170 115 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_j {
+        label j
+        xywh {195 115 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_k {
+        label k
+        xywh {220 115 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_l {
+        label l
+        xywh {245 115 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_semicolon {
+        label {;}
+        xywh {270 115 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_apostrophe {
+        label {'}
+        xywh {295 115 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_shiftL {
+        label shift
+        xywh {5 140 50 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_shiftR {
+        label shift
+        xywh {310 140 50 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_z {
+        label z
+        xywh {60 140 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_x {
+        label x
+        xywh {85 140 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_c {
+        label c
+        xywh {110 140 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_v {
+        label v
+        xywh {135 140 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_b {
+        label b
+        xywh {160 140 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_n {
+        label n
+        xywh {185 140 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_m {
+        label m
+        xywh {210 140 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_comma {
+        label {,}
+        xywh {235 140 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_dot {
+        label {.}
+        xywh {260 140 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_frontsl {
+        label {/}
+        xywh {285 140 20 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_ctrlL {
+        label ctrl
+        xywh {5 165 25 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_alt1 {
+        label alt
+        xywh {35 165 25 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_cmdL {
+        label cmd
+        xywh {65 165 30 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_ctrlR {
+        label ctrl
+        xywh {335 165 25 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_cmdR {
+        label cmd
+        xywh {270 165 30 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_fn {
+        label fn
+        xywh {305 165 25 20} box BORDER_BOX down_box BORDER_BOX
+      }
+      Fl_Button K_space {
+        label space
+        xywh {100 165 165 20} box BORDER_BOX down_box BORDER_BOX labeltype NO_LABEL
+      }
+    }
+    Fl_Group nav {
+      label Nav open
+      xywh {5 190 355 30} labeltype NO_LABEL
+    } {
+      Fl_Button nav_today {
+        label Today
+        xywh {5 190 45 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
+      }
+      Fl_Button nav_yesterday {
+        label Yesterday
+        xywh {49 190 71 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
+      }
+      Fl_Button nav_week {
+        label Week
+        xywh {119 190 41 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
+      }
+      Fl_Button nav_month {
+        label Month
+        xywh {159 190 46 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
+      }
+      Fl_Button nav_sem {
+        label {Sem.}
+        xywh {204 190 40 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
+      }
+      Fl_Button nav_year {
+        label Year
+        xywh {243 190 36 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
+      }
+      Fl_Button nav_all {
+        label All
+        xywh {278 190 26 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
+      }
+    }
+    Fl_Box {} {
+      label spacer1
+      xywh {0 36 363 1} box BORDER_BOX color 32 labeltype NO_LABEL
+    }
+    Fl_Box {} {
+      label spacer2
+      xywh {0 187 363 1} box BORDER_BOX color 32 labeltype NO_LABEL
+    }
+    Fl_Button nav_more {
+      label More
+      callback {UILogic::colourKeyboard();} selected
+      xywh {310 190 50 20} down_box DOWN_BOX selection_color 35
+    }
+  }
+}
