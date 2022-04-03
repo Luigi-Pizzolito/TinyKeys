@@ -1,24 +1,25 @@
 PNAME=TinyKeys
-SRCD=src/*.cpp
+SRCD=src/*.cpp src/**/*.cpp
 ODIR=bin
 
 C =gcc
 CC=g++
 IDIR=dep/include
 LDIR=dep/lib
-LIBS=-lsqlite3 -lfltk -lXext -lX11 -lm -lpthread -framework Cocoa
-CFLAGS=-std=c++17 -I $(IDIR) -I src/
+LIBS=-lsqlite3 -lfltk -lXext -lX11 -lm -lpthread -framework Cocoa -framework ApplicationServices -framework Carbon
+CFLAGS=-I $(IDIR) -I src/
 
 
 $(ODIR)/$(PNAME): $(SRCD)
 	@[ -d $(ODIR) ] || mkdir -p $(ODIR)
 	@echo "\033[0m\033[0;32mBuilding Project..........................\033[0m\033[2m"
 	$(CC) $^ -o $(ODIR)/$(PNAME) $(CFLAGS) -L$(LDIR) $(LIBS)
+	cp src/empty.db bin/keys.db;
 	@echo "\033[0m\033[1;32mProject Compiled Successfully.\033[0m"
 
 run: $(ODIR)/$(PNAME)
 	@echo "\033[0;34mRunning Project..........................\033[0m\033[2m\033[39;2m"
-	./$(ODIR)/$(PNAME) 2> /dev/null
+	cd ./$(ODIR); ./$(PNAME) 2> /dev/null
 	@echo "\033[0m\033[1;34mFinished.\033[0m"
 
 
