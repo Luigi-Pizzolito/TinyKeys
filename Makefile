@@ -14,7 +14,7 @@ $(ODIR)/$(PNAME): $(SRCD)
 	@[ -d $(ODIR) ] || mkdir -p $(ODIR)
 	@echo "\033[0m\033[0;32mBuilding Project..........................\033[0m\033[2m"
 	$(CC) $^ -o $(ODIR)/$(PNAME) $(CFLAGS) -L$(LDIR) $(LIBS)
-	cp src/empty.db bin/keys.db;
+	# cp src/empty.db bin/keys.db;
 	@echo "\033[0m\033[1;32mProject Compiled Successfully.\033[0m"
 
 run: $(ODIR)/$(PNAME)

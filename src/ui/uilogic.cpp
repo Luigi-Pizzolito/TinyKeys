@@ -2,6 +2,7 @@
 #include <iostream>
 #include "db/db.h"
 #include <string>
+#include "Gradient.h"
 
 namespace UILogic {
     void init() {
@@ -25,9 +26,20 @@ namespace UILogic {
     void colourKeyboard() {
         DB::init();
         std::string keyFilter = "2022040401";
+
+
         int keyMax = DB::getKeys("MAX", keyFilter.c_str(), "");
         keyMax = (keyMax>0)?keyMax:1;
-        std::cout << "Key MAX is " << keyMax << "\n";
+
+        Gradient::Gradient<Gradient::GradientColor> heat;
+        heat.addColorStop(0.0, Gradient::GradientColor(182.0f, 179.0f, 221.0f, 1.0f));        
+        heat.addColorStop(0.2, Gradient::GradientColor(160.0f, 166.0f, 252.0f, 1.0f));
+        heat.addColorStop(0.4, Gradient::GradientColor(159.0f, 201.0f, 251.0f, 1.0f));
+        heat.addColorStop(0.6, Gradient::GradientColor(158.0f, 245.0f, 194.0f, 1.0f));
+        heat.addColorStop(0.8, Gradient::GradientColor(237.0f, 226.0f, 170.0f, 1.0f));
+        heat.addColorStop(1.0, Gradient::GradientColor(238.0f, 168.0f, 172.0f, 1.0f));
+
+        // std::cout << "Key MAX is " << keyMax << "\n";
         for (size_t i=0; i<keyboard->children(); i++) {
             Fl_Widget* key = keyboard->child(i);
 
@@ -36,7 +48,9 @@ namespace UILogic {
             // std::cout << keyOrder[i] << "=" << keyC << "\n";
 
             key->copy_tooltip(std::to_string(keyC).c_str());
-            key->color(fl_rgb_color(162, 60, 20));
+            float keyclrP = (-(keyP-1.0f)*(keyP-1.0f))+1.0f; // nicer colours by bringing out low values using y=-(x-1)^2+1 curve
+            Gradient::GradientColor keyclr = heat.getColorAt(keyclrP);
+            key->color(fl_rgb_color(keyclr.r,keyclr.g,keyclr.b));
             key->redraw();
         }
     }
