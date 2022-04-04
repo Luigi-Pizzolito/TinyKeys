@@ -158,6 +158,7 @@ void DB::pushExecKeypress(const char* keyCode) {
         // for (size_t i=0; i<IPC_BUFF_SQLQUERIES;i++) {
         //     DB::inst().shm_buf[i] = reinterpret_cast<unsigned char &>(buf[i]);
         // }
+        
         DB::inst().queryBacklog.push_back((char*)keyCode);
         // std::cout << "buf:" << buf << "\n";
         //  = reinterpret_cast<unsigned char*>(buf);
@@ -195,7 +196,6 @@ void DB::pushWorker() {
             memset(dest, '\0', 120*200);
             for (size_t i=0; i < DB::inst().queryBacklog.size(); i++) {
                 char* q = DB::inst().queryBacklog[i];
-                
                 strcat( dest, "INSERT OR IGNORE INTO keys VALUES (strftime('%Y%m%d%H-");
                 strcat( dest, q);
                 strcat( dest, "', 'now', 'localtime'), 0);UPDATE keys SET keyi = keyi + 1 WHERE tsid = strftime('%Y%m%d%H-");
