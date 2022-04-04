@@ -2,8 +2,8 @@
 #include <sqlite3.h>
 
 #include "logger/logger.h"
-#include "ui/uilogic.h"
 #include "db/db.h"
+#include "ui/uilogic.h"
 
 #include <iostream>
 
@@ -11,8 +11,8 @@ int main(int argc, const char *argv[]) {
     std::cout << "starting threads\n";
     std::thread DB_PushWorker(DB::pushWorker);
     std::thread KeyLogger_Thread(KeyLogger::logWorker);
-
-    UILogic::init();
+    UILogic::setKeyFilter("%Y%m%d");
+    
 
     Fl::run();
 

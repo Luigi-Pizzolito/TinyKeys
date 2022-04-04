@@ -215,10 +215,9 @@ void DB::pushWorker() {
         //ipc_sem_increment(&DB::inst().queryBacklogAccess);
         
 
-
-
         std::this_thread::sleep_for(std::chrono::milliseconds(IPC_RS_HZ/2));
         UILogic::colourKeyboard();
+
     }
 }
 

@@ -336,30 +336,37 @@ Function {make_main_window()} {open
     } {
       Fl_Button nav_today {
         label Today
+        callback {UILogic::setKeyFilter("%Y%m%d");}
         xywh {5 190 45 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
       }
       Fl_Button nav_yesterday {
         label Yesterday
+        callback {UILogic::setKeyFilter("%Y%m%d", -1);}
         xywh {49 190 71 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
       }
       Fl_Button nav_week {
         label Week
+        callback {UILogic::setKeyFilter(0);}
         xywh {119 190 41 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
       }
       Fl_Button nav_month {
         label Month
+        callback {UILogic::setKeyFilter("%Y%m");}
         xywh {159 190 46 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
       }
       Fl_Button nav_sem {
         label {Sem.}
+        callback {UILogic::setKeyFilter(1);}
         xywh {204 190 40 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
       }
       Fl_Button nav_year {
         label Year
+        callback {UILogic::setKeyFilter("%Y");} selected
         xywh {243 190 36 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
       }
       Fl_Button nav_all {
         label All
+        callback {UILogic::setKeyFilter("");}
         xywh {278 190 26 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
       }
     }
@@ -373,7 +380,7 @@ Function {make_main_window()} {open
     }
     Fl_Button nav_more {
       label More
-      callback {UILogic::colourKeyboard();} selected
+      callback {UILogic::colourKeyboard();}
       xywh {310 190 50 20} down_box DOWN_BOX selection_color 35
     }
   }

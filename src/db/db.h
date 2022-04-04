@@ -7,7 +7,7 @@
 #include <vector>
 
 // #include "ipc.h"
-#define IPC_BUFF_SQLQUERIES 4096
+// #define IPC_BUFF_SQLQUERIES 4096
 class DB {
     static DB* DBinst;
     private:

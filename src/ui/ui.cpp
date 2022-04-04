@@ -164,17 +164,45 @@ Fl_Group *nav=(Fl_Group *)0;
 
 Fl_Button *nav_today=(Fl_Button *)0;
 
+static void cb_nav_today(Fl_Button*, void*) {
+  UILogic::setKeyFilter("%Y%m%d");
+}
+
 Fl_Button *nav_yesterday=(Fl_Button *)0;
+
+static void cb_nav_yesterday(Fl_Button*, void*) {
+  UILogic::setKeyFilter("%Y%m%d", -1);
+}
 
 Fl_Button *nav_week=(Fl_Button *)0;
 
+static void cb_nav_week(Fl_Button*, void*) {
+  UILogic::setKeyFilter(0);
+}
+
 Fl_Button *nav_month=(Fl_Button *)0;
+
+static void cb_nav_month(Fl_Button*, void*) {
+  UILogic::setKeyFilter("%Y%m");
+}
 
 Fl_Button *nav_sem=(Fl_Button *)0;
 
+static void cb_nav_sem(Fl_Button*, void*) {
+  UILogic::setKeyFilter(1);
+}
+
 Fl_Button *nav_year=(Fl_Button *)0;
 
+static void cb_nav_year(Fl_Button*, void*) {
+  UILogic::setKeyFilter("%Y");
+}
+
 Fl_Button *nav_all=(Fl_Button *)0;
+
+static void cb_nav_all(Fl_Button*, void*) {
+  UILogic::setKeyFilter("");
+}
 
 Fl_Button *nav_more=(Fl_Button *)0;
 
@@ -512,6 +540,7 @@ Fl_Double_Window* make_main_window() {
         nav_today->down_box(FL_BORDER_BOX);
         nav_today->color((Fl_Color)46);
         nav_today->selection_color((Fl_Color)35);
+        nav_today->callback((Fl_Callback*)cb_nav_today);
       } // Fl_Button* nav_today
       { nav_yesterday = new Fl_Button(49, 190, 71, 20, "Yesterday");
         nav_yesterday->type(102);
@@ -519,6 +548,7 @@ Fl_Double_Window* make_main_window() {
         nav_yesterday->down_box(FL_BORDER_BOX);
         nav_yesterday->color((Fl_Color)46);
         nav_yesterday->selection_color((Fl_Color)35);
+        nav_yesterday->callback((Fl_Callback*)cb_nav_yesterday);
       } // Fl_Button* nav_yesterday
       { nav_week = new Fl_Button(119, 190, 41, 20, "Week");
         nav_week->type(102);
@@ -526,6 +556,7 @@ Fl_Double_Window* make_main_window() {
         nav_week->down_box(FL_BORDER_BOX);
         nav_week->color((Fl_Color)46);
         nav_week->selection_color((Fl_Color)35);
+        nav_week->callback((Fl_Callback*)cb_nav_week);
       } // Fl_Button* nav_week
       { nav_month = new Fl_Button(159, 190, 46, 20, "Month");
         nav_month->type(102);
@@ -533,6 +564,7 @@ Fl_Double_Window* make_main_window() {
         nav_month->down_box(FL_BORDER_BOX);
         nav_month->color((Fl_Color)46);
         nav_month->selection_color((Fl_Color)35);
+        nav_month->callback((Fl_Callback*)cb_nav_month);
       } // Fl_Button* nav_month
       { nav_sem = new Fl_Button(204, 190, 40, 20, "Sem.");
         nav_sem->type(102);
@@ -540,6 +572,7 @@ Fl_Double_Window* make_main_window() {
         nav_sem->down_box(FL_BORDER_BOX);
         nav_sem->color((Fl_Color)46);
         nav_sem->selection_color((Fl_Color)35);
+        nav_sem->callback((Fl_Callback*)cb_nav_sem);
       } // Fl_Button* nav_sem
       { nav_year = new Fl_Button(243, 190, 36, 20, "Year");
         nav_year->type(102);
@@ -547,6 +580,7 @@ Fl_Double_Window* make_main_window() {
         nav_year->down_box(FL_BORDER_BOX);
         nav_year->color((Fl_Color)46);
         nav_year->selection_color((Fl_Color)35);
+        nav_year->callback((Fl_Callback*)cb_nav_year);
       } // Fl_Button* nav_year
       { nav_all = new Fl_Button(278, 190, 26, 20, "All");
         nav_all->type(102);
@@ -554,6 +588,7 @@ Fl_Double_Window* make_main_window() {
         nav_all->down_box(FL_BORDER_BOX);
         nav_all->color((Fl_Color)46);
         nav_all->selection_color((Fl_Color)35);
+        nav_all->callback((Fl_Callback*)cb_nav_all);
       } // Fl_Button* nav_all
       nav->end();
     } // Fl_Group* nav
