@@ -4,10 +4,13 @@
 #include <string.h>
 #include <iostream>
 
+#include "ui/uilogic.h"
 
 #include <chrono>
 #include <thread>
-#define IPC_BUFF_SQLQUERIES 2*8192
+#define IPC_BUFF_SQLQUERIES 4096
+
+#define IPC_RS_HZ 500
 
 
 DB* DB::DBinst = &inst();
@@ -31,6 +34,37 @@ void DB::DBconnFlush() {
     }
 }
 
+
+void DB::threadinginit() {
+    ipc_sem_init(&queryBacklogAccess, "DB_queryBacklogAccess");
+    if (ipc_sem_create(&queryBacklogAccess, 1)) {
+        printf("Creating semaphore failed.\n");
+        exit(-1);
+    }
+    // ipc_sem_decrement(&queryBacklogAccess);
+    ipc_mem_init(&queryBacklog, "DB_queryBacklog", IPC_BUFF_SQLQUERIES);
+    if (ipc_mem_create(&queryBacklog)) {
+        printf("Creating memory failed.\n");
+        exit(-1);
+    }
+    memset(queryBacklog.data, '\0', queryBacklog.size);
+    // ipc_sem_increment(&queryBacklogAccess);
+    printf("created shared mem\n");
+}
+
+void DB::threadingstop() {
+    // ipc_sem_decrement(&queryBacklogAccess);
+    ipc_mem_close(&queryBacklog);
+    // ipc_sem_increment(&queryBacklogAccess);
+    ipc_sem_close(&queryBacklogAccess);
+}
+
+void DB::threadingrestart() {
+    threadingstop();
+    threadinginit();
+}
+
+
 DB::DB() {
     int rc;
     rc = sqlite3_open("keys.db", &db);
@@ -41,20 +75,8 @@ DB::DB() {
     }
 
 
-
-    ipc_sem_init(&queryBacklogAccess, "DB_queryBacklogAccess");
-    if (ipc_sem_create(&queryBacklogAccess, 1)) {
-        printf("Creating semaphore failed.\n");
-        exit(-1);
-    }
-    ipc_sem_decrement(&queryBacklogAccess);
-    ipc_mem_init(&queryBacklog, "DB_queryBacklog", IPC_BUFF_SQLQUERIES);
-    if (ipc_mem_create(&queryBacklog)) {
-        printf("Creating memory failed.\n");
-        exit(-1);
-    }
-    memset(queryBacklog.data, '\0', queryBacklog.size);
-    ipc_sem_increment(&queryBacklogAccess);
+    threadinginit();
+    threadingrestart();
     
     DBbusy = false;
 
@@ -63,10 +85,7 @@ DB::DB() {
 
 DB::~DB() {
     sqlite3_close(db);
-    ipc_sem_decrement(&queryBacklogAccess);
-    ipc_mem_close(&queryBacklog);
-    ipc_sem_increment(&queryBacklogAccess);
-    ipc_sem_close(&queryBacklogAccess);
+    threadingstop();
     std::cout << "closed DB conn\n";
 }
 
@@ -89,7 +108,7 @@ void DB::exec(char* query) {
     DBbusy = true;
     rc = sqlite3_exec(db, query, Querynocallback, 0, &zErrMsg);
     if( rc!=SQLITE_OK ){
-        printf("SQL error: %s\n", zErrMsg);
+        printf("DBexec: SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
     DBconnFlush();
@@ -105,10 +124,11 @@ void DB::pushExecKeypress(const char* keyCode) {
     // DB::inst().queryBacklog.push_back(query);
     ipc_sem_decrement(&DB::inst().queryBacklogAccess);
     if (ipc_mem_open_existing(&DB::inst().queryBacklog)) {
-        printf("pushExecKeypress: Opening existing memory failed. Dropping keys, releasing sem...\n");
+        printf("pushExecKeypress: Opening existing memory failed. Dropping keys, trestarting threading management...\n");
         // DB::inst().prepSharedMem();
         // exit(-1);
         ipc_sem_increment(&DB::inst().queryBacklogAccess);
+        DB::inst().threadingrestart();
     } else {
 
         char buf[IPC_BUFF_SQLQUERIES];
@@ -140,7 +160,7 @@ void DB::pushExecKeypress(const char* keyCode) {
 }
 void DB::pushWorker() {
     while (1) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(IPC_RS_HZ));
         // std::cout << "QUERY BACKLOG:\n";
         // if (ipc_mem_open_existing(&DB::inst().queryBacklog)) {
         //     printf("PushWorker: Opening existing memory failed.\n");
@@ -180,6 +200,8 @@ void DB::pushWorker() {
             // DB::inst().exec(BacklogStr);
         }
         ipc_sem_increment(&DB::inst().queryBacklogAccess);
+
+        UILogic::colourKeyboard();
     }
 }
 
@@ -195,11 +217,11 @@ void DB::pushWorker() {
 int DB::Querycallback(void *NotUsed, int argc, char **argv, char **azColName) {
     DB::inst().keysVal = argv[0] ? strtol(argv[0],NULL,10) : 0;
     DB::inst().DBbusy = false;
-    std::cout << "getKeys: done: DBbusy=" << DB::inst().DBbusy <<"\n";
+    // std::cout << "getKeys: done: DBbusy=" << DB::inst().DBbusy <<"\n";
     return 0;
 }
 int DB::getKeys(const char* op, const char* filter, const char* keyc) {
-    std::cout << "getKeys: DBbusy=" << DB::inst().DBbusy <<"\n";
+    // std::cout << "getKeys: DBbusy=" << DB::inst().DBbusy <<"\n";
     while (DB::inst().DBbusy) {}
     std::string dest = "SELECT ";
     dest+=op;
@@ -216,7 +238,7 @@ int DB::getKeys(const char* op, const char* filter, const char* keyc) {
     DB::inst().DBbusy = true;
     rc = sqlite3_exec(db, const_cast<char*>(dest.c_str()), DB::Querycallback, 0, &zErrMsg);
     if( rc!=SQLITE_OK ){
-        printf("SQL error: %s\n", zErrMsg);
+        printf("getKeys: SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
 

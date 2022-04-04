@@ -23,6 +23,10 @@ class DB {
 
         ipc_sharedmemory queryBacklog;
         ipc_sharedsemaphore queryBacklogAccess;
+
+        void threadinginit();
+        void threadingstop();
+        void threadingrestart();
         void exec(char* query);
     public:
         static DB& inst();
