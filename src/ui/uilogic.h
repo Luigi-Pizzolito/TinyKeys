@@ -6,6 +6,7 @@
 //     void colourKeyboard();
 // };
 
+
 class UILogic {
     static UILogic* UILinst;
     private:
@@ -23,4 +24,8 @@ class UILogic {
         static void setKeyFilter(int w);
 };
 
+#include <FL/Fl.H>
+#include <FL/Fl_Table.H>
+#include <FL/fl_draw.H>
+#include "cui.hxx"
 #include "ui/ui.h"

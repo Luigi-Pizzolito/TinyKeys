@@ -97,4 +97,9 @@ extern Fl_Button *nav_all;
 #include <FL/Fl_Box.H>
 extern Fl_Button *nav_more;
 Fl_Double_Window* make_main_window();
+extern MyTable *more_info_table;
+#include <FL/Fl_File_Input.H>
+extern Fl_File_Input *file_export_path;
+#include <FL/Fl_Return_Button.H>
+Fl_Double_Window* make_more_window();
 #endif

@@ -207,7 +207,9 @@ static void cb_nav_all(Fl_Button*, void*) {
 Fl_Button *nav_more=(Fl_Button *)0;
 
 static void cb_nav_more(Fl_Button*, void*) {
-  UILogic::colourKeyboard();
+  Fl_Double_Window* window2 = make_more_window();
+window2->end();
+window2->show();
 }
 
 Fl_Double_Window* make_main_window() {
@@ -608,6 +610,38 @@ Fl_Double_Window* make_main_window() {
       nav_more->callback((Fl_Callback*)cb_nav_more);
     } // Fl_Button* nav_more
     o->size_range(348, 170, 348, 170);
+    o->end();
+  } // Fl_Double_Window* o
+  return w;
+}
+
+MyTable *more_info_table=(MyTable *)0;
+
+Fl_File_Input *file_export_path=(Fl_File_Input *)0;
+
+Fl_Double_Window* make_more_window() {
+  Fl_Double_Window* w;
+  { Fl_Double_Window* o = new Fl_Double_Window(230, 266, "More Tiny Keys");
+    w = o; if (w) {/* empty */}
+    o->hotspot(o);
+    { more_info_table = new MyTable(5, 5, 219, 195);
+      more_info_table->box(FL_THIN_DOWN_FRAME);
+      more_info_table->color(FL_BACKGROUND_COLOR);
+      more_info_table->selection_color(FL_BACKGROUND_COLOR);
+      more_info_table->labeltype(FL_NO_LABEL);
+      more_info_table->labelfont(0);
+      more_info_table->labelsize(14);
+      more_info_table->labelcolor(FL_FOREGROUND_COLOR);
+      more_info_table->align(Fl_Align(FL_ALIGN_TOP));
+      more_info_table->when(FL_WHEN_RELEASE);
+      more_info_table->end();
+    } // MyTable* more_info_table
+    { file_export_path = new Fl_File_Input(5, 207, 220, 28);
+      file_export_path->labeltype(FL_NO_LABEL);
+    } // Fl_File_Input* file_export_path
+    { new Fl_Return_Button(5, 240, 220, 20, "Export");
+    } // Fl_Return_Button* o
+    o->size_range(365, 240, 365, 240);
     o->end();
   } // Fl_Double_Window* o
   return w;

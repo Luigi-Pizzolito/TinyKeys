@@ -6,7 +6,7 @@ Function {make_main_window()} {open
 } {
   Fl_Window {} {
     label TinyKeys open
-    xywh {367 169 363 214} type Double labelfont 13 size_range {348 170 348 170} visible
+    xywh {369 169 363 214} type Double labelfont 13 size_range {348 170 348 170} visible
   } {
     Fl_Group stats {
       label {Glance Stats}
@@ -34,7 +34,7 @@ Function {make_main_window()} {open
       }
     }
     Fl_Group keyboard {
-      label Keyboard open
+      label Keyboard
       xywh {0 38 360 147} labeltype NO_LABEL
     } {
       Fl_Button K_q {
@@ -331,7 +331,7 @@ Function {make_main_window()} {open
       }
     }
     Fl_Group nav {
-      label Nav open
+      label Nav
       xywh {5 190 355 30} labeltype NO_LABEL
     } {
       Fl_Button nav_today {
@@ -361,7 +361,7 @@ Function {make_main_window()} {open
       }
       Fl_Button nav_year {
         label Year
-        callback {UILogic::setKeyFilter("%Y");} selected
+        callback {UILogic::setKeyFilter("%Y");}
         xywh {243 190 36 20} type Radio box BORDER_BOX down_box BORDER_BOX color 46 selection_color 35
       }
       Fl_Button nav_all {
@@ -380,8 +380,30 @@ Function {make_main_window()} {open
     }
     Fl_Button nav_more {
       label More
-      callback {UILogic::colourKeyboard();}
+      callback {Fl_Double_Window* window2 = make_more_window();
+window2->end();
+window2->show();}
       xywh {310 190 50 20} down_box DOWN_BOX selection_color 35
+    }
+  }
+}
+
+Function {make_more_window()} {open
+} {
+  Fl_Window {} {
+    label {More Tiny Keys} open
+    xywh {367 406 230 266} type Double hotspot size_range {365 240 365 240} visible
+  } {
+    Fl_Table more_info_table {
+      xywh {5 5 219 195} labeltype NO_LABEL
+      class MyTable
+    } {}
+    Fl_File_Input file_export_path {
+      xywh {5 207 220 28} labeltype NO_LABEL
+    }
+    Fl_Return_Button {} {
+      label Export selected
+      xywh {5 240 220 20}
     }
   }
 }
