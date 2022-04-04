@@ -1,3 +1,9 @@
+// #define IPC_MALLOC
+// #define IPC_FREE
+
+#include <stdlib.h>
+#define IPC_IMPLEMENTATION
+#include "db/ipc.h"
 #include "uilogic.h"
 #include <iostream>
 #include "db/db.h"
@@ -25,7 +31,7 @@ namespace UILogic {
 
     void colourKeyboard() {
         // DB::init();
-        std::string keyFilter = "2022040401";
+        std::string keyFilter = "2022040414";
 
 
         int keyMax = DB::getKeys("MAX", keyFilter.c_str(), "");

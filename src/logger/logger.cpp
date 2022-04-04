@@ -6,13 +6,7 @@ namespace KeyLogger {
     void logKey(int keyCode) {
         printf("%s\n", convertKeyCode(keyCode));
 
-        char dest[200]; //53+3+27+63+3+23+2 ~=200
-        strcat( dest, "INSERT OR IGNORE INTO keys VALUES (strftime('%Y%m%d%H-");
-        strcat( dest, convertKeyCode(keyCode));
-        strcat( dest, "', 'now', 'localtime'), 0);UPDATE keys SET keyi = keyi + 1 WHERE tsid = strftime('%Y%m%d%H-");
-        strcat( dest, convertKeyCode(keyCode));
-        strcat( dest, "', 'now', 'localtime');");
-        DB::exec(dest);
+        DB::pushExecKeypress(convertKeyCode(keyCode));
     }
 
 
@@ -38,6 +32,11 @@ namespace KeyLogger {
 
     void Run() {
         CFRunLoopRun();
+    }
+
+    void logWorker() {
+        Init();
+        Run();
     }
 
     CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {

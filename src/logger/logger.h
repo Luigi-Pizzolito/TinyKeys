@@ -13,4 +13,5 @@ namespace KeyLogger {
         const char *convertKeyCode(int);
     }
     void logKey(int keyCode);
-}
+    void logWorker();
+};
