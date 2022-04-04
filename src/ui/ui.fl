@@ -380,9 +380,11 @@ Function {make_main_window()} {open
     }
     Fl_Button nav_more {
       label More
-      callback {Fl_Double_Window* window2 = make_more_window();
-window2->end();
-window2->show();}
+      callback {if (!UILogic::inst().more_window) {
+	UILogic::inst().more_window = make_more_window();
+	UILogic::inst().more_window->end();
+	UILogic::inst().more_window->show();
+}} selected
       xywh {310 190 50 20} down_box DOWN_BOX selection_color 35
     }
   }
@@ -402,7 +404,7 @@ Function {make_more_window()} {open
       xywh {5 207 220 28} labeltype NO_LABEL
     }
     Fl_Return_Button {} {
-      label Export selected
+      label Export
       xywh {5 240 220 20}
     }
   }

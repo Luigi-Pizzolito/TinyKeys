@@ -207,9 +207,13 @@ static void cb_nav_all(Fl_Button*, void*) {
 Fl_Button *nav_more=(Fl_Button *)0;
 
 static void cb_nav_more(Fl_Button*, void*) {
-  Fl_Double_Window* window2 = make_more_window();
-window2->end();
-window2->show();
+  if (!UILogic::inst().more_window) {
+	UILogic::inst().more_window = make_more_window();
+	UILogic::inst().more_window->end();
+	UILogic::inst().more_window->show();
+} else {
+	UILogic::inst().more_window->show();
+};
 }
 
 Fl_Double_Window* make_main_window() {

@@ -134,7 +134,7 @@ void UILogic::colourKeyboard() {
             keyC+=DB::getKeys("SUM", UILogic::getKeyFilter("%Y%m", -5*30).c_str(), keyOrder[i]);
         }
 
-
+        UILogic::inst().kPmap[std::string(keyOrder[i])] = std::to_string(keyC);
 
 
         // keyC = (keyC)?keyC:0;
@@ -148,6 +148,7 @@ void UILogic::colourKeyboard() {
         key->redraw();
     }
 
+    if (more_info_table) more_info_table->redraw();
 
     gs_today->value(std::to_string(DB::getKeys("SUM", UILogic::getKeyFilter("%Y%m%d").c_str(), "")).c_str());    
     gs_yesterday->value(std::to_string(DB::getKeys("SUM", UILogic::getKeyFilter("%Y%m%d", -1).c_str(), "")).c_str());
@@ -169,14 +170,3 @@ void UILogic::colourKeyboard() {
 //     void init() {
         
 //     }
-
-
-
-    
-
-//     void colourKeyboard() {
-//         // DB::init();
-        
-
-// }
-
