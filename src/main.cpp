@@ -1,5 +1,5 @@
 #include <thread>
-#include "db/db.h"
+#include <sqlite3.h>
 #include "logger/logger.h"
 
 #include "ui/uilogic.h"
@@ -14,7 +14,10 @@ int main(int argc, const char *argv[]) {
 
     UILogic::init();
 
+    
+
     // KeyLogger_Thread.join();
+    // sqlite3_close(db);
     // KeyLogger_Thread.detach();
     return Fl::run();
 }
