@@ -4,10 +4,10 @@
 #include <sqlite3.h>
 #include <string.h>
 #include <stdlib.h>
-// #include <vector>
+#include <vector>
 
-#include "ipc.h"
-
+// #include "ipc.h"
+#define IPC_BUFF_SQLQUERIES 4096
 class DB {
     static DB* DBinst;
     private:
@@ -21,8 +21,10 @@ class DB {
         int keysVal;
         static int Querycallback(void *NotUsed, int argc, char **argv, char **azColName);
 
-        ipc_sharedmemory queryBacklog;
-        ipc_sharedsemaphore queryBacklogAccess;
+        // ipc_sharedmemory queryBacklog;
+        // ipc_sharedsemaphore queryBacklogAccess;
+        // unsigned char shm_buf[IPC_BUFF_SQLQUERIES];
+        std::vector<char*> queryBacklog;
 
         void threadinginit();
         void threadingstop();

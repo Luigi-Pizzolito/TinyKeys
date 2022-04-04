@@ -2,13 +2,14 @@
 // #define IPC_FREE
 
 #include <stdlib.h>
-#define IPC_IMPLEMENTATION
-#include "db/ipc.h"
+// #define IPC_IMPLEMENTATION
+// #include "db/ipc.h"
 #include "uilogic.h"
 #include <iostream>
 #include "db/db.h"
 #include <string>
 #include "Gradient.h"
+
 
 namespace UILogic {
     void init() {
@@ -31,7 +32,7 @@ namespace UILogic {
 
     void colourKeyboard() {
         // DB::init();
-        std::string keyFilter = "2022040415";
+        std::string keyFilter = "2022040417";
 
 
         int keyMax = DB::getKeys("MAX", keyFilter.c_str(), "");
@@ -50,6 +51,7 @@ namespace UILogic {
             Fl_Widget* key = keyboard->child(i);
 
             int keyC = DB::getKeys("SUM", keyFilter.c_str(), keyOrder[i]);
+            // keyC = (keyC)?keyC:0;
             float keyP = (float)keyC / (float)keyMax;
             // std::cout << keyOrder[i] << "=" << keyC << "\n";
 
@@ -59,6 +61,14 @@ namespace UILogic {
             key->color(fl_rgb_color(keyclr.r,keyclr.g,keyclr.b));
             key->redraw();
         }
+
+
+        gs_today->value(std::to_string(DB::getKeys("SUM", "20220404", "")).c_str());    
+        gs_yesterday->value(std::to_string(DB::getKeys("SUM", "20220403", "")).c_str());
+        gs_week->value("100,000");
+        gs_alltime->value(std::to_string(DB::getKeys("SUM", "", "")).c_str());
+
+
     }
 
 }

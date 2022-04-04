@@ -8,7 +8,9 @@
 
 #include <chrono>
 #include <thread>
-#define IPC_BUFF_SQLQUERIES 4096
+
+// #include <sys/ipc.h>
+// #include <sys/shm.h>
 
 #define IPC_RS_HZ 500
 
@@ -36,27 +38,30 @@ void DB::DBconnFlush() {
 
 
 void DB::threadinginit() {
-    ipc_sem_init(&queryBacklogAccess, "DB_queryBacklogAccess");
-    if (ipc_sem_create(&queryBacklogAccess, 1)) {
-        printf("Creating semaphore failed.\n");
-        exit(-1);
-    }
-    // ipc_sem_decrement(&queryBacklogAccess);
-    ipc_mem_init(&queryBacklog, "DB_queryBacklog", IPC_BUFF_SQLQUERIES);
-    if (ipc_mem_create(&queryBacklog)) {
-        printf("Creating memory failed.\n");
-        exit(-1);
-    }
-    memset(queryBacklog.data, '\0', queryBacklog.size);
-    // ipc_sem_increment(&queryBacklogAccess);
-    printf("created shared mem\n");
+    //ipc_sem_init(&queryBacklogAccess, "DB_queryBacklogAccess");
+    // if (//ipc_sem_create(&queryBacklogAccess, 1)) {
+    //     printf("Creating semaphore failed.\n");
+    //     exit(-1);
+    // }
+    // // //ipc_sem_decrement(&queryBacklogAccess);
+    // //ipc_mem_init(&queryBacklog, "DB_queryBacklog", IPC_BUFF_SQLQUERIES);
+    // if (//ipc_mem_create(&queryBacklog)) {
+    //     printf("Creating memory failed.\n");
+    //     exit(-1);
+    // }
+    // memset(queryBacklog.data, '\0', queryBacklog.size);
+    // // //ipc_sem_increment(&queryBacklogAccess);
+    // printf("created shared mem\n");
+
+    // key_t key = ftok("shmfile", 65);
+
 }
 
 void DB::threadingstop() {
-    // ipc_sem_decrement(&queryBacklogAccess);
-    ipc_mem_close(&queryBacklog);
-    // ipc_sem_increment(&queryBacklogAccess);
-    ipc_sem_close(&queryBacklogAccess);
+    // //ipc_sem_decrement(&queryBacklogAccess);
+    //ipc_mem_close(&queryBacklog);
+    // //ipc_sem_increment(&queryBacklogAccess);
+    //ipc_sem_close(&queryBacklogAccess);
 }
 
 void DB::threadingrestart() {
@@ -122,47 +127,49 @@ void DB::exec(char* query) {
 
 void DB::pushExecKeypress(const char* keyCode) {
     // DB::inst().queryBacklog.push_back(query);
-    ipc_sem_decrement(&DB::inst().queryBacklogAccess);
-    if (ipc_mem_open_existing(&DB::inst().queryBacklog)) {
-        printf("pushExecKeypress: Opening existing memory failed. Dropping keys, trestarting threading management...\n");
+    //ipc_sem_decrement(&DB::inst().queryBacklogAccess);
+    // if (//ipc_mem_open_existing(&DB::inst().queryBacklog)) {
+        // printf("pushExecKeypress: Opening existing memory failed. Dropping keys, trestarting threading management...\n");
         // DB::inst().prepSharedMem();
         // exit(-1);
-        ipc_sem_increment(&DB::inst().queryBacklogAccess);
-        DB::inst().threadingrestart();
-    } else {
+        //ipc_sem_increment(&DB::inst().queryBacklogAccess);
+        // DB::inst().threadingrestart();
+    // } else {
 
-        char buf[IPC_BUFF_SQLQUERIES];
-        memset(buf, '\0', IPC_BUFF_SQLQUERIES);
-        memcpy(buf, reinterpret_cast<char*>(DB::inst().queryBacklog.data), IPC_BUFF_SQLQUERIES);
-        bool startcpy=false;
-        size_t cpyoff = 0;
-        for (size_t i=0; i<IPC_BUFF_SQLQUERIES;i++) {
-            if (buf[i] == '\0') {
-                startcpy=true;
-            }
-            if (startcpy) {
-                buf[i] = keyCode[cpyoff++];
-                if (keyCode[cpyoff-1] == '\0') {
-                    buf[i]='|';
-                    buf[i+1]='\0';
-                    break;
-                }
-            }
-        }
+        // char buf[IPC_BUFF_SQLQUERIES];
+        // memset(buf, '\0', IPC_BUFF_SQLQUERIES);
+        // memcpy(buf, reinterpret_cast<char*>(DB::inst().shm_buf), IPC_BUFF_SQLQUERIES);
+        // bool startcpy=false;
+        // size_t cpyoff = 0;
+        // for (size_t i=0; i<IPC_BUFF_SQLQUERIES;i++) {
+        //     if (buf[i] == '\0') {
+        //         startcpy=true;
+        //     }
+        //     if (startcpy) {
+        //         buf[i] = keyCode[cpyoff++];
+        //         if (keyCode[cpyoff-1] == '\0') {
+        //             buf[i]='|';
+        //             buf[i+1]='\0';
+        //             break;
+        //         }
+        //     }
+        // }
         
-        for (size_t i=0; i<IPC_BUFF_SQLQUERIES;i++) {
-            DB::inst().queryBacklog.data[i] = reinterpret_cast<unsigned char &>(buf[i]);
-        }
+        // for (size_t i=0; i<IPC_BUFF_SQLQUERIES;i++) {
+        //     DB::inst().shm_buf[i] = reinterpret_cast<unsigned char &>(buf[i]);
+        // }
+        DB::inst().queryBacklog.push_back((char*)keyCode);
         // std::cout << "buf:" << buf << "\n";
-        // DB::inst().queryBacklog.data = reinterpret_cast<unsigned char*>(buf);
-        ipc_sem_increment(&DB::inst().queryBacklogAccess);
-    }
+        //  = reinterpret_cast<unsigned char*>(buf);
+        //ipc_sem_increment(&DB::inst().queryBacklogAccess);
+    // }
 }
 void DB::pushWorker() {
     while (1) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(IPC_RS_HZ));
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(IPC_RS_HZ/2));
         // std::cout << "QUERY BACKLOG:\n";
-        // if (ipc_mem_open_existing(&DB::inst().queryBacklog)) {
+        // if (//ipc_mem_open_existing(&DB::inst().queryBacklog)) {
         //     printf("PushWorker: Opening existing memory failed.\n");
         //     exit(-1);
         // }
@@ -176,31 +183,41 @@ void DB::pushWorker() {
         
         // BacklogStr[strlen(BacklogStr)-1] = '\0'; // remove last | delimiter
         // std::cout << "\n data is: " << BacklogStr << "\n";
-        ipc_sem_decrement(&DB::inst().queryBacklogAccess);
-        if (!DB::inst().DBbusy && !ipc_mem_open_existing(&DB::inst().queryBacklog)) {
-            char* BacklogStr =  reinterpret_cast<char*>(DB::inst().queryBacklog.data);
-            std::cout << "DBpushWorker: Executing " << std::count(BacklogStr, BacklogStr+IPC_BUFF_SQLQUERIES, '|') << " queries.\n";
+        //ipc_sem_decrement(&DB::inst().queryBacklogAccess);
+        if (!DB::inst().DBbusy && DB::inst().queryBacklog.size() > 1/*&& !ipc_mem_open_existing(&DB::inst().queryBacklog)*/) {
+            // char* BacklogStr =  reinterpret_cast<char*>(DB::inst().shm_buf);
+            // std::cout << "DBpushWorker: Executing " << std::count(BacklogStr, BacklogStr+IPC_BUFF_SQLQUERIES, '|') << " queries.\n";
+            // std::cout << "DBpushWorker: Executing " << DB::inst().queryBacklog.size() << " queries.\n";
 
-            char* q_array = strtok(BacklogStr, "|");
-            while (q_array) {
-                char dest[200]; //53+3+27+63+3+23+2 ~=200
-                memset(dest, '\0', 200);
+            // char* q_array = strtok(BacklogStr, "|");
+            // while (q_array) {
+            char dest[120*200]; //53+3+27+63+3+23+2 ~=200
+            memset(dest, '\0', 120*200);
+            for (size_t i=0; i < DB::inst().queryBacklog.size(); i++) {
+                char* q = DB::inst().queryBacklog[i];
+                
                 strcat( dest, "INSERT OR IGNORE INTO keys VALUES (strftime('%Y%m%d%H-");
-                strcat( dest, q_array);
+                strcat( dest, q);
                 strcat( dest, "', 'now', 'localtime'), 0);UPDATE keys SET keyi = keyi + 1 WHERE tsid = strftime('%Y%m%d%H-");
-                strcat( dest, q_array);
+                strcat( dest, q);
                 strcat( dest, "', 'now', 'localtime');");
                 strcat( dest, "\0");
-                DB::inst().exec(dest);
-                // std::cout << "SQL: "<<dest<<"\n";
-                q_array = strtok(NULL, "|");
-                if (q_array == nullptr) break;
+                DB::inst().queryBacklog.erase(DB::inst().queryBacklog.begin()+i);
             }
-            memset(DB::inst().queryBacklog.data, '\0', IPC_BUFF_SQLQUERIES);
+            DB::inst().exec(dest);
+            //     // std::cout << "SQL: "<<dest<<"\n";
+            //     q_array = strtok(NULL, "|");
+            //     if (q_array == nullptr) break;
+            // }
+            // memset(DB::inst().shm_buf, '\0', IPC_BUFF_SQLQUERIES);
             // DB::inst().exec(BacklogStr);
         }
-        ipc_sem_increment(&DB::inst().queryBacklogAccess);
+        //ipc_sem_increment(&DB::inst().queryBacklogAccess);
+        
 
+
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(IPC_RS_HZ/2));
         UILogic::colourKeyboard();
     }
 }
@@ -218,11 +235,14 @@ int DB::Querycallback(void *NotUsed, int argc, char **argv, char **azColName) {
     DB::inst().keysVal = argv[0] ? strtol(argv[0],NULL,10) : 0;
     DB::inst().DBbusy = false;
     // std::cout << "getKeys: done: DBbusy=" << DB::inst().DBbusy <<"\n";
+    // std::cout << "SQL result: "<<DB::inst().keysVal<<"\n";
     return 0;
 }
 int DB::getKeys(const char* op, const char* filter, const char* keyc) {
     // std::cout << "getKeys: DBbusy=" << DB::inst().DBbusy <<"\n";
-    while (DB::inst().DBbusy) {}
+    while (DB::inst().DBbusy) {
+        // printf("DB wait keygeys busy\n");
+    }
     std::string dest = "SELECT ";
     dest+=op;
     dest+="(keyi) FROM keys WHERE tsid LIKE '";
@@ -242,7 +262,9 @@ int DB::getKeys(const char* op, const char* filter, const char* keyc) {
         sqlite3_free(zErrMsg);
     }
 
-    while (DB::inst().DBbusy) {}
+    while (DB::inst().DBbusy) {
+        // std::cout<<"waitDB\n";
+    }
     DB::inst().DBbusy = false;
     return DB::inst().keysVal;
 }
